@@ -79,10 +79,18 @@ class PiCamera(Base):
         pass
 
     @printf
-    def capture(self, output, format=None, use_video_port=False, resize=None, splitter_port=0, **options):
-        # this does nothing
-        pass
-
+    def capture(self, 
+                output, 
+                format=None, 
+                use_video_port=False, 
+                resize=None, 
+                splitter_port=0, 
+                **options):
+        if hasattr(output, "write") and callable(getattr(output, 'write')):
+            output.write(b'deadbeef')
+        elif isinstance(output, str):
+            with open(output, "w") as f:
+                f.write(b'deadbeef')
 
 class array(object):
     """Fake class"""
